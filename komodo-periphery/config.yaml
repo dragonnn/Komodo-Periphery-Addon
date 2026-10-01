@@ -1,6 +1,6 @@
 name: "Komodo Periphery"
 description: "Komodo Periphery Server - Manages containers on remote servers"
-version: "2.1.1"
+version: "2.1.2"
 slug: "komodo-periphery"
 init: false
 arch:
@@ -25,6 +25,7 @@ map:
 options:
   core_url: ""
   passkey: ""
+  core_public_keys: []
   ssl_enabled: true
   logging_level: "info"
   disable_terminals: false
@@ -39,6 +40,8 @@ options:
 schema:
   core_url: str?
   passkey: password?
+  core_public_keys:
+    - str
   ssl_enabled: bool
   logging_level: list(trace|debug|info|warn|error)?
   disable_terminals: bool

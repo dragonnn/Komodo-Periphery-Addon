@@ -6,6 +6,7 @@
 
 declare core_url
 declare passkey
+declare core_public_keys
 declare ssl_enabled
 declare logging_level
 declare disable_terminals
@@ -21,6 +22,7 @@ declare exclude_disk_mounts
 # Get configuration from Home Assistant
 core_url=$(bashio::config 'core_url' '')
 passkey=$(bashio::config 'passkey' '')
+core_public_keys=$(jq -r '(.core_public_keys // []) | join(",")' /data/options.json) || exit 1
 ssl_enabled=$(bashio::config 'ssl_enabled' 'false')
 logging_level=$(bashio::config 'logging_level' 'info')
 disable_terminals=$(bashio::config 'disable_terminals' 'false')
@@ -75,8 +77,8 @@ mkdir -p /etc/komodo/ssl
 mkdir -p /data/config
 mkdir -p /data/logs
 
-# Generate random passkey if not provided and no core_url is set (standalone mode)
-if bashio::var.is_empty "${passkey}" && bashio::var.is_empty "${core_url}"; then
+# Generate a legacy passkey only when no authentication or core_url is configured.
+if bashio::var.is_empty "${passkey}" && bashio::var.is_empty "${core_url}" && bashio::var.is_empty "${core_public_keys}"; then
     # Use alternative method if openssl is not available
     if command -v openssl >/dev/null 2>&1; then
         passkey=$(openssl rand -hex 32)
@@ -112,6 +114,10 @@ bashio::log.debug "Using IP address for SSL certificate: ${HA_IP}"
 export PERIPHERY_PORT="8120"
 export PERIPHERY_BIND_IP="[::]"
 export PERIPHERY_ROOT_DIRECTORY="/etc/komodo"
+export PERIPHERY_PRIVATE_KEY="file:/data/periphery.key"
+if [[ -n "${core_public_keys}" ]]; then
+    export PERIPHERY_CORE_PUBLIC_KEYS="${core_public_keys}"
+fi
 
 # Directory overrides
 export PERIPHERY_STACK_DIR="${stack_directory}"
