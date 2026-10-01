@@ -31,14 +31,14 @@ This Home Assistant Add-on provides the Komodo Periphery server, which allows yo
 
 ### Quick Installation
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fcgfm%2FKomodo-Periphery-Addon)
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fdragonnn%2FKomodo-Periphery-Addon)
 
 ### Manual Installation
 
 1. Navigate in your Home Assistant frontend to **Settings** → **Add-ons** → **Add-on Store**.
 2. Click the 3-dots menu at upper right **...** → **Repositories** and add this repository URL:
    ```
-   https://github.com/cgfm/Komodo-Periphery-Addon
+   https://github.com/dragonnn/Komodo-Periphery-Addon
    ```
 3. Find the "Komodo Periphery" add-on and click it.
 4. Click on the "INSTALL" button.

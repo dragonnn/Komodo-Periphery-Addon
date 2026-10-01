@@ -84,7 +84,7 @@ if bashio::var.is_empty "${passkey}" && bashio::var.is_empty "${core_url}"; then
         # Fallback: use /dev/urandom with od
         passkey=$(head -c 32 /dev/urandom | od -A n -t x1 | tr -d ' \n')
     fi
-    bashio::log.info "Generated random passkey for authentication: ${passkey}"
+    bashio::log.info "Generated random passkey for authentication"
 fi
 
 # Get Home Assistant internal IP for SSL certificate (prefer IPv4)
@@ -277,7 +277,7 @@ bashio::log.info "Stack directory: ${stack_directory}"
 bashio::log.info "Repo directory: ${repo_directory}"
 bashio::log.info "Build directory: ${build_directory}"
 bashio::log.info "SSL enabled: ${ssl_enabled}"
-bashio::log.info "Passkey: ${passkey}"
+bashio::log.info "Passkey: [redacted]"
 
 if [[ -n "${core_url}" ]]; then
     bashio::log.info "Core URL: ${core_url}"
@@ -335,7 +335,7 @@ if [ -x "/usr/local/bin/periphery" ]; then
     bashio::log.debug "BIND_IP: $PERIPHERY_BIND_IP"
     bashio::log.debug "SSL_ENABLED: $PERIPHERY_SSL_ENABLED"
     if [ -n "${PERIPHERY_PASSKEYS:-}" ]; then
-        bashio::log.debug "PASSKEYS: ${PERIPHERY_PASSKEYS:0:10}..."
+        bashio::log.debug "PASSKEYS: [redacted]"
     else
         bashio::log.debug "PASSKEYS: (using config file)"
     fi
@@ -363,7 +363,7 @@ if [ -x "/usr/local/bin/periphery" ]; then
     # Try to start the binary directly (native glibc should work)
     bashio::log.info "Starting Komodo Periphery with native glibc..."
     
-    if ! /usr/local/bin/periphery 2>&1; then
+    if ! /usr/local/bin/periphery --config-path /etc/komodo/periphery.config.toml 2>&1; then
         exit_code=$?
         bashio::log.error "Komodo Periphery failed to start (exit code: $exit_code)"
         
